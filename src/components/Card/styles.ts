@@ -10,17 +10,22 @@ export const CardContainer = styled.div`
 
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
+  align-items: center;
 
   img {
     margin-top: calc(0rem - 1rem);
+    /* width: 3rem;
+    height: 3rem; */
+    width: 6.25rem;
+    height: 6.25rem;
   }
 `
 
 export const Description = styled.div`
   margin-top: 1rem;
+  text-align: center;
 
-  h2 {
+  h3 {
     color: ${(props) => props.theme.colors['base-subtitle']};
     font-family: 'Baloo 2', sans-serif;
     font-size: ${(props) => props.theme.fonts.title.s.fontSize};
@@ -60,6 +65,11 @@ export const BuyContainer = styled.div`
   width: 100%;
   align-items: flex-end;
   justify-content: space-between;
+
+  div:last-child {
+    display: flex;
+    gap: 0.5rem;
+  }
 `
 
 export const BuyPrice = styled.div`

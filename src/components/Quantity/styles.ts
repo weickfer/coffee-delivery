@@ -35,6 +35,7 @@ export const QuantityContainer = styled.div`
 
   p {
     flex: 1;
+    text-align: center;
     font-family: 'Roboto', sans-serif;
     font-size: ${(props) => props.theme.fonts.text['regular-m'].fontSize};
     font-weight: ${(props) => props.theme.fonts.text['regular-m'].fontWeight};

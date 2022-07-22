@@ -1,4 +1,5 @@
 import americanCoffee from '../../assets/images/american-coffee.png'
+import { CartButton } from '../CartButton'
 import { Quantity } from '../Quantity'
 import {
   BuyContainer,
@@ -20,16 +21,19 @@ export function Card() {
       </Tags>
 
       <Description>
-        <h2>Expresso Americano</h2>
+        <h3>Expresso Americano</h3>
         <p>Expresso diluído, menos intenso que o tradicional</p>
       </Description>
 
-      {/* <BuyContainer>
+      <BuyContainer>
         <BuyPrice>
           R$ <span>9,90</span>
         </BuyPrice>
-        <Quantity value={1} />
-      </BuyContainer> */}
+        <div>
+          <Quantity value={1} />
+          <CartButton schema="purple" />
+        </div>
+      </BuyContainer>
     </CardContainer>
   )
 }

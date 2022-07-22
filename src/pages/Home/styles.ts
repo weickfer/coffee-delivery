@@ -97,9 +97,9 @@ export const IconContainer = styled.div<IconContainerProps>`
 
 export const CoffeeContainer = styled.div`
   margin-top: 4.125rem;
-  padding-top: 1rem;
+  padding: 1rem 0;
 
-  h2 {
+  > h2 {
     color: ${(props) => props.theme.colors['base-subtitle']};
     font-family: 'Baloo 2', sans-serif;
     font-size: ${(props) => props.theme.fonts.title.l.fontSize};
