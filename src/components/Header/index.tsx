@@ -5,6 +5,9 @@ import { CartButton } from '../CartButton'
 import { HeaderContainer, ShopLocation, CartItemsCounter } from './styles'
 
 export function Header() {
+  const totalItems = 1
+  const showItemsCounter = totalItems > 0
+
   return (
     <HeaderContainer>
       <img src={logoImg} alt="Coffee Delivery" />
@@ -16,7 +19,9 @@ export function Header() {
         </ShopLocation>
 
         <CartButton schema="yellow">
-          <CartItemsCounter>0</CartItemsCounter>
+          {showItemsCounter && (
+            <CartItemsCounter>{totalItems}</CartItemsCounter>
+          )}
         </CartButton>
       </nav>
     </HeaderContainer>

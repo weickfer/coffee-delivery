@@ -88,7 +88,7 @@ export const IconContainer = styled.div<IconContainerProps>`
     const color = ICON_CONTAINER_COLORS[props.color]
     return props.theme.colors[color]
   }};
-  margin-right: 0.75rem;
+  margin-right: 0.5rem;
 
   svg {
     color: ${(props) => props.theme.colors.white};
