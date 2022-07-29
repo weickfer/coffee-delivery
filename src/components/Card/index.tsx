@@ -1,7 +1,10 @@
-import { useMemo } from 'react'
-import americanCoffee from '../../assets/images/american-coffee.png'
+import { useMemo, useState } from 'react'
+
+import { useCart } from '../../contexts/CartContext'
+import { brazilPriceFormatter } from '../../utils/brazilPriceFormatter'
 import { CartButton } from '../CartButton'
 import { Quantity } from '../Quantity'
+
 import {
   BuyContainer,
   BuyPrice,
@@ -10,41 +13,56 @@ import {
   Tags,
 } from './styles'
 
-type CardProps = {
-  title: string
-  description: string
+type Product = {
+  id: number
   url: string
+  name: string
   price: number
+  description: string
   tags: string[]
 }
 
-const brazilPriceFormatter = Intl.NumberFormat('pt-BR', {
-  style: 'currency',
-  currency: 'BRL',
-})
+type CardProps = {
+  data: Product
+}
 
-export function Card({ title, description, url, tags, price }: CardProps) {
+export function Card({ data }: CardProps) {
+  const [quantity, setQuantity] = useState(0)
   const [currency, formattedPrice] = useMemo(() => {
-    const currency = brazilPriceFormatter.format(price)
+    const currency = brazilPriceFormatter.format(data.price)
     const prefix = currency.substring(0, 3)
     const formattedPrice = currency.slice(3)
 
     return [prefix, formattedPrice]
-  }, [price])
+  }, [data.price])
+  const { addProduct } = useCart()
+
+  const handleChangeQuantity = (value: number) => {
+    setQuantity(value)
+  }
+
+  const handleAddProductToCart = () => {
+    if (quantity > 0) {
+      addProduct({
+        ...data,
+        quantity,
+      })
+    }
+  }
 
   return (
     <CardContainer>
-      <img src={url} alt="Café Americano" />
+      <img src={data.url} alt="Café Americano" />
 
       <Tags>
-        {tags.map((tag) => (
+        {data.tags.map((tag) => (
           <span key={tag}>{tag}</span>
         ))}
       </Tags>
 
       <Description>
-        <h3>{title}</h3>
-        <p>{description}</p>
+        <h3>{data.name}</h3>
+        <p>{data.description}</p>
       </Description>
 
       <BuyContainer>
@@ -52,8 +70,8 @@ export function Card({ title, description, url, tags, price }: CardProps) {
           {currency} <span>{formattedPrice}</span>
         </BuyPrice>
         <div>
-          <Quantity value={1} />
-          <CartButton schema="purple" />
+          <Quantity value={quantity} onChange={handleChangeQuantity} />
+          <CartButton schema="purple" onClick={handleAddProductToCart} />
         </div>
       </BuyContainer>
     </CardContainer>

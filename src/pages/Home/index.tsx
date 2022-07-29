@@ -62,14 +62,7 @@ export function Home() {
 
         <CardList>
           {coffees.map((coffee) => (
-            <Card
-              key={coffee.id}
-              title={coffee.name}
-              description={coffee.description}
-              price={coffee.price}
-              url={coffee.url}
-              tags={coffee.tags}
-            />
+            <Card key={coffee.id} data={coffee} />
           ))}
         </CardList>
       </CoffeeContainer>

@@ -1,19 +1,27 @@
 import { Trash } from 'phosphor-react'
-import americanCoffeeImg from '../../assets/images/american-coffee.png'
+
+import { ProductType } from '../../contexts/CartContext'
+import { brazilPriceFormatter } from '../../utils/brazilPriceFormatter'
 import { Quantity } from '../Quantity'
 import { CoffeeItemContainer, Details, Product, RemoveButton } from './styles'
 
-export function CoffeeItem() {
+type CoffeeItemProps = {
+  product: ProductType
+}
+
+export function CoffeeItem({ product }: CoffeeItemProps) {
+  const formattedPrice = brazilPriceFormatter.format(product.price)
+
   return (
     <CoffeeItemContainer>
       <Product>
-        <img src={americanCoffeeImg} alt="American Coffee" />
+        <img src={product.url} alt={product.name} />
 
         <Details>
-          <p>Café Americano</p>
+          <p>{product.name}</p>
           <div>
-            <Quantity value={0} />
-            <RemoveButton>
+            <Quantity value={product.quantity} />
+            <RemoveButton type="button">
               <Trash size={16} />
               Remover
             </RemoveButton>
@@ -21,7 +29,7 @@ export function CoffeeItem() {
         </Details>
       </Product>
 
-      <span>R$ 19,90</span>
+      <span>{formattedPrice}</span>
     </CoffeeItemContainer>
   )
 }

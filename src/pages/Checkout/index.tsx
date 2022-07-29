@@ -22,6 +22,8 @@ import {
   CardSection,
   SubmitButton,
 } from './styles'
+import { useCart } from '../../contexts/CartContext'
+import { brazilPriceFormatter } from '../../utils/brazilPriceFormatter'
 
 const validationSchema = zod.object({
   postal_code: zod
@@ -46,6 +48,12 @@ export function Checkout() {
   const { handleSubmit } = purchaseForm
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentsMethod>('credit_card')
+  const { products } = useCart()
+
+  const totalPrice = products.reduce((total, product) => {
+    return total + product.price * product.quantity
+  }, 0)
+  const formattedTotalPrice = brazilPriceFormatter.format(totalPrice)
 
   const handleSelectPaymentMethod = (method: PaymentsMethod) => {
     setPaymentMethod(method)
@@ -120,12 +128,14 @@ export function Checkout() {
       <aside>
         <h2>Cafés selecionados</h2>
         <Card>
-          <CoffeeItem />
+          {products.map((product) => (
+            <CoffeeItem key={product.id} product={product} />
+          ))}
 
           <footer>
             <CardSection>
               <strong>Total de itens</strong>
-              <p>R$ 29,70</p>
+              <p>{formattedTotalPrice}</p>
             </CardSection>
             <CardSection>
               <strong>Entrega</strong>

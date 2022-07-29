@@ -4,9 +4,11 @@ import logoImg from '../../assets/logo.svg'
 import { CartButton } from '../CartButton'
 
 import { HeaderContainer, ShopLocation, CartItemsCounter } from './styles'
+import { useCart } from '../../contexts/CartContext'
 
 export function Header() {
-  const totalItems = 1
+  const { products } = useCart()
+  const totalItems = products.length
   const showItemsCounter = totalItems > 0
 
   return (
