@@ -3,7 +3,6 @@ import styled from 'styled-components'
 export const HomeContainer = styled.div``
 
 export const Intro = styled.div`
-  margin-top: 4rem;
   display: grid;
   grid-template-areas: 'title img';
 
@@ -99,6 +98,12 @@ export const CoffeeContainer = styled.div`
   margin-top: 4.125rem;
   padding: 1rem 0;
 
+  @media (max-width: 768px) {
+    > h2 {
+      text-align: center;
+    }
+  }
+
   > h2 {
     color: ${(props) => props.theme.colors['base-subtitle']};
     font-family: 'Baloo 2', sans-serif;
@@ -113,4 +118,13 @@ export const CardList = styled.main`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 1rem;
+
+    > div {
+      align-self: center;
+    }
+  }
 `

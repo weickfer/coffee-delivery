@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { MapPin } from 'phosphor-react'
 import logoImg from '../../assets/logo.svg'
 import { CartButton } from '../CartButton'
@@ -10,7 +11,9 @@ export function Header() {
 
   return (
     <HeaderContainer>
-      <img src={logoImg} alt="Coffee Delivery" />
+      <Link to="/">
+        <img src={logoImg} alt="Coffee Delivery" />
+      </Link>
 
       <nav>
         <ShopLocation>
@@ -18,11 +21,13 @@ export function Header() {
           Sobradinho, DF
         </ShopLocation>
 
-        <CartButton schema="yellow">
-          {showItemsCounter && (
-            <CartItemsCounter>{totalItems}</CartItemsCounter>
-          )}
-        </CartButton>
+        <Link to="/checkout">
+          <CartButton schema="yellow">
+            {showItemsCounter && (
+              <CartItemsCounter>{totalItems}</CartItemsCounter>
+            )}
+          </CartButton>
+        </Link>
       </nav>
     </HeaderContainer>
   )

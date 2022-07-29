@@ -17,7 +17,8 @@ export const GlobalStyle = createGlobalStyle`
     color: ${(props) => props.theme.colors['base-title']};
     -webkit-font-smoothing: antialiased;
     margin: 0 auto;
-    max-width: calc(70rem - 2rem);
+    /* max-width: calc(70rem - 2rem);  */
+    max-width: calc(68rem + 2rem + 1rem); // 40rem 28rem
     padding: 0 1rem;
     
     /* @media(max-width: 1020px) {

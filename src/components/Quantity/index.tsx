@@ -23,13 +23,17 @@ export function Quantity({ value, onChange }: QuantityProps) {
 
   return (
     <QuantityContainer>
-      <button onClick={handleDecrement} disabled={minusButtonDisabled}>
+      <button
+        type="button"
+        onClick={handleDecrement}
+        disabled={minusButtonDisabled}
+      >
         <Minus /* weight="bold" */ size={15} />
       </button>
 
       <p>{value}</p>
 
-      <button onClick={handleIncrement}>
+      <button type="button" onClick={handleIncrement}>
         <Plus /* weight="bold" */ size={15} />
       </button>
     </QuantityContainer>

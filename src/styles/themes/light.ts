@@ -16,6 +16,7 @@ export const themeLight = {
     'yellow-dark': '#C47F17',
     yellow: '#DBAC2C',
     'yellow-light': '#F1E9C9',
+    red: '#d34242',
   },
   fonts: {
     title: {

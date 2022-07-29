@@ -1,14 +1,13 @@
 import { ThemeProvider } from 'styled-components'
-import { Header } from './components/Header'
-import { Home } from './pages/Home'
-import { GlobalStyle } from './styles/global'
+
+import { Router } from './routes'
 import { themeLight } from './styles/themes/light'
+import { GlobalStyle } from './styles/global'
 
 export function App() {
   return (
     <ThemeProvider theme={themeLight}>
-      <Home />
-
+      <Router />
       <GlobalStyle />
     </ThemeProvider>
   )

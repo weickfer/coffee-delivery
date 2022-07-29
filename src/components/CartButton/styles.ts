@@ -1,31 +1,13 @@
 import styled, { css } from 'styled-components'
 
 type CartButtonContainerProps = {
-  schema: 'yellow' | 'purple'
+  background: 'yellow' | 'purple'
 }
 
-const CART_BUTTON_SCHEMA = {
-  yellow: {
-    bg: 'yellow-light',
-    color: 'yellow-dark',
-  },
-  purple: {
-    bg: 'purple-dark',
-    color: 'base-card',
-  },
+const CART_BUTTON_BACKGROUND = {
+  yellow: 'yellow-light',
+  purple: 'purple-dark',
 } as const
-
-const ButtonSchema = css<CartButtonContainerProps>`
-  background-color: ${({ schema, theme }) => {
-    return theme.colors[CART_BUTTON_SCHEMA[schema].bg]
-  }};
-
-  svg {
-    color: ${({ schema, theme }) => {
-      return theme.colors[CART_BUTTON_SCHEMA[schema].color]
-    }};
-  }
-`
 
 export const CartButtonContainer = styled.button<CartButtonContainerProps>`
   width: 2.375rem;
@@ -35,9 +17,11 @@ export const CartButtonContainer = styled.button<CartButtonContainerProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  background: ${(props) => {
+    const background = CART_BUTTON_BACKGROUND[props.background]
 
-  ${ButtonSchema}
-
+    return props.theme.colors[background]
+  }};
   position: relative;
   cursor: pointer;
   transition: 0.2s;

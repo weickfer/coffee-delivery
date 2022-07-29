@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react'
+import { useTheme } from 'styled-components'
 import { ShoppingCart } from 'phosphor-react'
 import { CartButtonContainer } from './styles'
 
@@ -12,10 +13,26 @@ export function CartButton({
   schema,
   ...buttonProps
 }: CartButtonProps) {
+  const theme = useTheme()
+
   return (
-    <CartButtonContainer schema={schema} {...buttonProps}>
+    <CartButtonContainer background={schema} {...buttonProps}>
       {children}
-      <ShoppingCart size={22} weight="fill" />
+      {schema === 'purple' && (
+        <ShoppingCart
+          size={22}
+          weight="fill"
+          color={theme.colors['base-card']}
+        />
+      )}
+
+      {schema === 'yellow' && (
+        <ShoppingCart
+          size={22}
+          weight="fill"
+          color={theme.colors['yellow-dark']}
+        />
+      )}
     </CartButtonContainer>
   )
 }
