@@ -12,6 +12,10 @@ export const GlobalStyle = createGlobalStyle`
     box-shadow: 0 0 0 2px ${(props) => props.theme.colors['yellow-dark']};
   }
 
+  /* html:not([data-scroll="10%"]) #header {
+    background: red;
+  } */
+
   body {
     background-color:${(props) => props.theme.colors.background};
     color: ${(props) => props.theme.colors['base-title']};

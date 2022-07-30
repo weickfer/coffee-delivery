@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const CoffeeItemContainer = styled.div`
+export const OrderContainer = styled.div`
   width: 100%;
   height: 5rem;
   display: flex;

@@ -1,10 +1,17 @@
 import styled from 'styled-components'
 
 export const HeaderContainer = styled.header`
+  /* position: sticky;
+  top: 0; */
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem 0;
+  padding: 2rem 2rem 1rem;
+  background: ${(props) => props.theme.colors.background};
+  position: sticky;
+  top: 0;
+  z-index: 9999999;
 
   nav {
     display: flex;

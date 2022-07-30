@@ -5,14 +5,14 @@ import {
   Bank,
   Money,
 } from 'phosphor-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { useTheme } from 'styled-components'
-import { CoffeeItem } from '../../components/CoffeeItem'
+import { Order } from '../../components/Order'
 import { PurchaseForm } from './components/Form'
-import { getUFs } from '../../utils/getUFs'
 import {
   CheckoutContainer,
   Card,
@@ -31,36 +31,43 @@ const validationSchema = zod.object({
     .length(8, 'O CEP deve ter 8 dígitos'),
   street: zod.string({ required_error: 'Campo Rua é obrigatório' }),
   number: zod.string({ required_error: 'Campo Número é obrigatório' }),
-  complement: zod.string({ required_error: 'Campo Complemento é obrigatório' }),
+  complement: zod.string().optional(),
   neighborhood: zod.string({ required_error: 'Campo Bairro é obrigatório' }),
   city: zod.string({ required_error: 'Campo Cidade é obrigatório' }),
   state: zod.string({ required_error: 'Campo Estado é obrigatório' }),
 })
 
 export type PurchaseFormData = zod.infer<typeof validationSchema>
-type PaymentsMethod = 'credit_card' | 'debit_card' | 'cash'
+export type PaymentsMethod = 'credit_card' | 'debit_card' | 'cash'
 
 export function Checkout() {
   const theme = useTheme()
+  const navigate = useNavigate()
+
   const purchaseForm = useForm<PurchaseFormData>({
     resolver: zodResolver(validationSchema),
   })
   const { handleSubmit } = purchaseForm
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentsMethod>('credit_card')
-  const { products } = useCart()
+  const { orders, removeProduct, updateProductQuantity, setOrderInformation } =
+    useCart()
 
-  const totalPrice = products.reduce((total, product) => {
+  const totalPrice = orders.reduce((total, product) => {
     return total + product.price * product.quantity
   }, 0)
   const formattedTotalPrice = brazilPriceFormatter.format(totalPrice)
 
   const handleSelectPaymentMethod = (method: PaymentsMethod) => {
     setPaymentMethod(method)
+    navigate('/success')
   }
 
+  // const handleRemoveOrder = (orderId: number) => removeProduct(orderId)
+  // const handleChangeProductQuantity = (orderId: number, )
+
   const handleSubmitPurchaseInfo = handleSubmit((data) => {
-    console.log(data)
+    setOrderInformation({ ...data, paymentMethod })
   })
 
   return (
@@ -120,7 +127,7 @@ export function Checkout() {
               isSelected={paymentMethod === 'cash'}
             >
               <Money weight="regular" size={16} />
-              Cartão de Credito
+              Dinheiro
             </Payment>
           </PaymentsGrid>
         </Card>
@@ -128,8 +135,15 @@ export function Checkout() {
       <aside>
         <h2>Cafés selecionados</h2>
         <Card>
-          {products.map((product) => (
-            <CoffeeItem key={product.id} product={product} />
+          {orders.map((order) => (
+            <Order
+              key={order.id}
+              order={order}
+              onRemove={() => removeProduct(order.id)}
+              onQuantityChange={(quantity) =>
+                updateProductQuantity(order.id, quantity)
+              }
+            />
           ))}
 
           <footer>

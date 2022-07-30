@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { MapPin } from 'phosphor-react'
 import logoImg from '../../assets/logo.svg'
 import { CartButton } from '../CartButton'
@@ -7,12 +7,13 @@ import { HeaderContainer, ShopLocation, CartItemsCounter } from './styles'
 import { useCart } from '../../contexts/CartContext'
 
 export function Header() {
-  const { products } = useCart()
-  const totalItems = products.length
+  const { orders } = useCart()
+  const navigate = useNavigate()
+  const totalItems = orders.length
   const showItemsCounter = totalItems > 0
 
   return (
-    <HeaderContainer>
+    <HeaderContainer id="header">
       <Link to="/">
         <img src={logoImg} alt="Coffee Delivery" />
       </Link>
@@ -23,13 +24,17 @@ export function Header() {
           Sobradinho, DF
         </ShopLocation>
 
-        <Link to="/checkout">
-          <CartButton schema="yellow">
-            {showItemsCounter && (
-              <CartItemsCounter>{totalItems}</CartItemsCounter>
-            )}
-          </CartButton>
-        </Link>
+        {/* <Link to="/checkout"> */}
+        <CartButton
+          onClick={() => navigate('/checkout', { state: 'oi' })}
+          schema="yellow"
+          disabled={!showItemsCounter}
+        >
+          {showItemsCounter && (
+            <CartItemsCounter>{totalItems}</CartItemsCounter>
+          )}
+        </CartButton>
+        {/* </Link> */}
       </nav>
     </HeaderContainer>
   )

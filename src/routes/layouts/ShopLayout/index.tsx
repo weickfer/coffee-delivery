@@ -6,6 +6,8 @@ export function ShopLayout() {
   return (
     <ShopLayoutContainer>
       <Header />
+      {/* <div id="fix_on_top">
+      </div> */}
 
       <Outlet />
     </ShopLayoutContainer>

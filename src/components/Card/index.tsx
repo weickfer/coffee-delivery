@@ -35,7 +35,7 @@ export function Card({ data }: CardProps) {
 
     return [prefix, formattedPrice]
   }, [data.price])
-  const { addProduct } = useCart()
+  const { addOrder } = useCart()
 
   const handleChangeQuantity = (value: number) => {
     setQuantity(value)
@@ -43,7 +43,7 @@ export function Card({ data }: CardProps) {
 
   const handleAddProductToCart = () => {
     if (quantity > 0) {
-      addProduct({
+      addOrder({
         ...data,
         quantity,
       })

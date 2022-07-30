@@ -114,17 +114,21 @@ export const CoffeeContainer = styled.div`
 
 export const CardList = styled.main`
   /* margin: 2rem 0; */
+  max-width: calc(68rem + 2rem + 1rem); // 40rem 28rem
   margin-top: 2rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 2rem;
+  gap: 1.5rem;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr 1fr;
     row-gap: 1rem;
 
-    > div {
+    /* > div {
       align-self: center;
+    } */
+    div {
+      width: 100%;
     }
   }
 `
