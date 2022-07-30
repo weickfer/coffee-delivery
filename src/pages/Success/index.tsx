@@ -1,9 +1,38 @@
 import { CurrencyDollar, MapPin, Timer } from 'phosphor-react'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import successImg from '../../assets/success.svg'
+import { useCart } from '../../contexts/CartContext'
+import { PaymentsMethod, PurchaseFormData } from '../Checkout/validationSchema'
 import { IconContainer } from '../Home/styles'
 import { SuccessContainer, OrderInfo, OrderInfoSection } from './styles'
 
+type PurchaseInfo = PurchaseFormData & { paymentMethod: PaymentsMethod }
+
 export function Success() {
+  const [data, setData] = useState<PurchaseInfo | null>(null)
+  const navigate = useNavigate()
+  const { clearCart } = useCart()
+
+  useEffect(() => {
+    const purchaseInfo = localStorage.getItem('@coffeeShop-1.0.0:purchaseInfo')
+
+    if (!purchaseInfo) return
+
+    try {
+      const parsedPurchaseInfo = JSON.parse(purchaseInfo) as PurchaseInfo
+      setData(parsedPurchaseInfo)
+      clearCart()
+    } catch {
+      clearCart()
+      // navigate('/')
+    }
+  }, [])
+
+  if (!data) {
+    return <p>Carregando (provisório)...</p>
+  }
+
   return (
     <SuccessContainer>
       <h1>Uhu! Pedido confirmado</h1>
@@ -18,8 +47,12 @@ export function Success() {
               </IconContainer>
 
               <p>
-                Entrega em <span>Avenida Central Conjunto 19, 03</span> <br />
-                Sobradinho - Brasília, DF
+                Entrega em{' '}
+                <span>
+                  {data.street}, {data.number}
+                </span>{' '}
+                <br />
+                {data.neighborhood}, {data.city} - {data.state}
               </p>
             </OrderInfoSection>
             <OrderInfoSection>
@@ -39,7 +72,13 @@ export function Success() {
 
               <p>
                 Pagamento na entrega <br />
-                <span>Cartão de Crédito</span>
+                {data.paymentMethod === 'credit_card' && (
+                  <span>Cartão de Crédito</span>
+                )}
+                {data.paymentMethod === 'debit_card' && (
+                  <span>Cartão de Débito</span>
+                )}
+                {data.paymentMethod === 'cash' && <span>Dinheiro</span>}
               </p>
             </OrderInfoSection>
           </div>

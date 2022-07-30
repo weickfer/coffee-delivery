@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { produce } from 'immer'
-import { PaymentsMethod, PurchaseFormData } from '../pages/Checkout'
 
 export type ProductType = {
   id: number
@@ -10,16 +9,12 @@ export type ProductType = {
   quantity: number
 }
 
-type OrderInfo = PurchaseFormData & { paymentMethod: PaymentsMethod }
-type SetOrderInformation = (data: OrderInfo) => void
-
 type CartContextType = {
   orders: ProductType[]
-  orderInformation?: OrderInfo
-  setOrderInformation: SetOrderInformation
   addOrder: (product: ProductType) => void
   removeProduct: (orderId: number) => void
   updateProductQuantity: (orderId: number, newQuantity: number) => void
+  clearCart(): void
 }
 
 const CartContext = createContext({} as CartContextType)
@@ -30,9 +25,6 @@ type CartProviderProps = {
 
 export function CartProvider({ children }: CartProviderProps) {
   const [orders, setOrders] = useState<ProductType[]>([])
-  const [orderInformation, setOrderInformation] = useState<OrderInfo>(
-    {} as OrderInfo,
-  )
 
   const addOrder = (clientProduct: ProductType) => {
     const productWithSameIdIndex = orders.findIndex(
@@ -69,15 +61,19 @@ export function CartProvider({ children }: CartProviderProps) {
     setOrders(updatedOrders)
   }
 
+  const clearCart = () => {
+    setOrders([])
+    localStorage.removeItem('@coffeeShop-1.0.0:purchaseInfo')
+  }
+
   return (
     <CartContext.Provider
       value={{
         orders,
-        orderInformation,
-        setOrderInformation: setOrderInformation as SetOrderInformation,
         addOrder,
         removeProduct,
         updateProductQuantity,
+        clearCart,
       }}
     >
       {children}

@@ -1,3 +1,8 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { FormProvider, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useTheme } from 'styled-components'
 import {
   MapPinLine,
   CurrencyDollar,
@@ -5,12 +10,7 @@ import {
   Bank,
   Money,
 } from 'phosphor-react'
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { FormProvider, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as zod from 'zod'
-import { useTheme } from 'styled-components'
+
 import { Order } from '../../components/Order'
 import { PurchaseForm } from './components/Form'
 import {
@@ -24,21 +24,11 @@ import {
 } from './styles'
 import { useCart } from '../../contexts/CartContext'
 import { brazilPriceFormatter } from '../../utils/brazilPriceFormatter'
-
-const validationSchema = zod.object({
-  postal_code: zod
-    .string({ required_error: 'Campo CEP é obrigatório' })
-    .length(8, 'O CEP deve ter 8 dígitos'),
-  street: zod.string({ required_error: 'Campo Rua é obrigatório' }),
-  number: zod.string({ required_error: 'Campo Número é obrigatório' }),
-  complement: zod.string().optional(),
-  neighborhood: zod.string({ required_error: 'Campo Bairro é obrigatório' }),
-  city: zod.string({ required_error: 'Campo Cidade é obrigatório' }),
-  state: zod.string({ required_error: 'Campo Estado é obrigatório' }),
-})
-
-export type PurchaseFormData = zod.infer<typeof validationSchema>
-export type PaymentsMethod = 'credit_card' | 'debit_card' | 'cash'
+import {
+  PaymentsMethod,
+  PurchaseFormData,
+  validationSchema,
+} from './validationSchema'
 
 export function Checkout() {
   const theme = useTheme()
@@ -50,24 +40,34 @@ export function Checkout() {
   const { handleSubmit } = purchaseForm
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentsMethod>('credit_card')
-  const { orders, removeProduct, updateProductQuantity, setOrderInformation } =
-    useCart()
+  const { orders, removeProduct, updateProductQuantity } = useCart()
 
-  const totalPrice = orders.reduce((total, product) => {
+  useEffect(() => {
+    if (orders.length === 0) {
+      navigate('/')
+    }
+  }, [navigate, orders])
+
+  const totalOrderPrice = orders.reduce((total, product) => {
     return total + product.price * product.quantity
   }, 0)
+  const shippingPrice = 7
+  const totalPrice = totalOrderPrice + shippingPrice
+
+  const formattedOrderPrice = brazilPriceFormatter.format(totalOrderPrice)
+  const formattedShippingPrice = brazilPriceFormatter.format(shippingPrice)
   const formattedTotalPrice = brazilPriceFormatter.format(totalPrice)
 
   const handleSelectPaymentMethod = (method: PaymentsMethod) => {
     setPaymentMethod(method)
-    navigate('/success')
   }
 
-  // const handleRemoveOrder = (orderId: number) => removeProduct(orderId)
-  // const handleChangeProductQuantity = (orderId: number, )
-
   const handleSubmitPurchaseInfo = handleSubmit((data) => {
-    setOrderInformation({ ...data, paymentMethod })
+    localStorage.setItem(
+      '@coffeeShop-1.0.0:purchaseInfo',
+      JSON.stringify({ ...data, paymentMethod }),
+    )
+    navigate('/success')
   })
 
   return (
@@ -149,15 +149,15 @@ export function Checkout() {
           <footer>
             <CardSection>
               <strong>Total de itens</strong>
-              <p>{formattedTotalPrice}</p>
+              <p>{formattedOrderPrice}</p>
             </CardSection>
             <CardSection>
               <strong>Entrega</strong>
-              <p>R$ 3,50</p>
+              <p>{formattedShippingPrice}</p>
             </CardSection>
             <CardSection>
               <h1>Total</h1>
-              <h1>R$ 33,20</h1>
+              <h1>{formattedTotalPrice}</h1>
             </CardSection>
 
             <SubmitButton type="submit">Confirmar pedido</SubmitButton>
