@@ -6,7 +6,7 @@ export const Intro = styled.div`
   display: grid;
   grid-template-areas: 'title img';
 
-  @media (max-width: 1020px) {
+  @media (max-width: 845px) {
     grid-template-areas:
       'img'
       'title';
@@ -41,30 +41,6 @@ export const Title = styled.div`
   }
 `
 
-export const ItemsGrid = styled.div`
-  margin-top: 4.125rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  row-gap: 0.5rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    row-gap: 1rem;
-  }
-
-  max-width: 36.75rem;
-
-  span {
-    display: flex;
-    align-items: center;
-    color: ${(props) => props.theme.colors['base-text']};
-    font-family: 'Roboto', sans-serif;
-    font-size: ${(props) => props.theme.fonts.text['regular-m'].fontSize};
-    font-weight: ${(props) => props.theme.fonts.text['regular-m'].fontWeight};
-    /* padding-left: 0.75rem; */
-  }
-`
-
 type IconContainerProps = {
   color: 'yellowDark' | 'yellow' | 'gray' | 'purple'
 }
@@ -94,6 +70,41 @@ export const IconContainer = styled.div<IconContainerProps>`
   }
 `
 
+export const ItemsGrid = styled.div`
+  margin-top: 4.125rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 0.5rem;
+
+  max-width: 36.75rem;
+
+  span {
+    display: flex;
+    align-items: center;
+    color: ${(props) => props.theme.colors['base-text']};
+    font-family: 'Roboto', sans-serif;
+    font-size: ${(props) => props.theme.fonts.text['regular-m'].fontSize};
+    font-weight: ${(props) => props.theme.fonts.text['regular-m'].fontWeight};
+    /* padding-left: 0.75rem; */
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+    width: 100%;
+
+    span {
+      font-size: ${(props) => props.theme.fonts.text['regular-l'].fontSize};
+      font-weight: ${(props) => props.theme.fonts.text['regular-l'].fontWeight};
+    }
+
+    ${IconContainer} {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+`
+
 export const CoffeeContainer = styled.div`
   margin-top: 4.125rem;
   padding: 1rem 0;
@@ -117,18 +128,30 @@ export const CardList = styled.main`
   max-width: calc(68rem + 2rem + 1rem); // 40rem 28rem
   margin-top: 2rem;
   display: grid;
+
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1.5rem;
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr 1fr;
-    row-gap: 1rem;
+  @media (max-width: 845px) {
+    grid-template-columns: 1fr 1fr 1fr;
 
-    /* > div {
-      align-self: center;
-    } */
     div {
       width: 100%;
+
+      > p {
+        max-width: 100%;
+        text-align: center;
+      }
+    }
+  }
+
+  @media (max-width: 770px) {
+    grid-template-columns: 1fr;
+    row-gap: 2rem;
+
+    > div {
+      margin: 0 auto;
+      width: 29.75rem;
     }
   }
 `

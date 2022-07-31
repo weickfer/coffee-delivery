@@ -11,7 +11,6 @@ type PurchaseInfo = PurchaseFormData & { paymentMethod: PaymentsMethod }
 
 export function Success() {
   const [data, setData] = useState<PurchaseInfo | null>(null)
-  const navigate = useNavigate()
   const { clearCart } = useCart()
 
   useEffect(() => {

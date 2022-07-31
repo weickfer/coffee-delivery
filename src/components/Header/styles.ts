@@ -8,6 +8,7 @@ export const HeaderContainer = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 2rem 2rem 1rem;
+  margin: 0 auto;
   background: ${(props) => props.theme.colors.background};
   position: sticky;
   top: 0;

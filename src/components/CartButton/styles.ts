@@ -26,6 +26,10 @@ export const CartButtonContainer = styled.button<CartButtonContainerProps>`
   cursor: pointer;
   transition: 0.2s;
 
+  svg {
+    size: 1.5rem;
+  }
+
   &:hover {
     filter: brightness(0.9);
   }

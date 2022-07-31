@@ -20,7 +20,7 @@ export function CartButton({
       {children}
       {schema === 'purple' && (
         <ShoppingCart
-          size={22}
+          // size={22}
           weight="fill"
           color={theme.colors['base-card']}
         />
@@ -28,7 +28,7 @@ export function CartButton({
 
       {schema === 'yellow' && (
         <ShoppingCart
-          size={22}
+          // size={22}
           weight="fill"
           color={theme.colors['yellow-dark']}
         />
